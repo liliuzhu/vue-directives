@@ -3,8 +3,8 @@ const trigger = (el, type) => {
   e.initEvent(type, true, true)
   el.dispatchEvent(e)
 }
-const dataHandle = (event, input, binding, options) => {
-  const inputValue = input.value
+const dataHandle = (inputEl, binding, options) => {
+  const inputValue = inputEl.value
   let newValue = null
   if (inputValue.length === 0) {
     newValue = options.reqired ? options.reqireValue : ''
@@ -13,18 +13,17 @@ const dataHandle = (event, input, binding, options) => {
   //   newValue = inputValue.replace(/[^0-9]/g, 0)
   // }
   else {
-    console.log(inputValue)
     let reg = /^[^1-9-]|(?!^)[^\d]|^0+/g
     if (options.min >= 0) {
       reg = /[^\d]|^0+/g
     }
     newValue = inputValue.replace(reg, '')
-    console.log(newValue)
   }
-  input.value = newValue.slice(0, Number.isFinite(options.maxLength) ? undefined : options.maxLength)
-  trigger(input, 'input')
+  console.log(newValue)
+  inputEl.value = newValue.slice(0, Number.isFinite(options.maxLength) ? undefined : options.maxLength)
+  trigger(inputEl, 'input')
 }
-const EVENTS = ['keyup', 'change']
+const EVENTS = ['input']
 
 export default {
   name: 'integer',
@@ -41,27 +40,27 @@ export default {
       manWarning: null,
     }
     const options = { ...{}, ...defaultOptions, ...(binding.modifiers || {}), ...(binding.value || {}) }
-    const input = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
-    if (!input) {
+    const inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
+    if (!inputEl) {
       throw new Error({ message: '该指令只能在input元素或者其父元素使用' })
       return // eslint-disable-line
     }
-    input.keyupHandle = event => { // eslint-disable-line
-      dataHandle(event, input, binding, options)
+    inputEl.keyupHandle = event => { // eslint-disable-line
+      event.isTrusted && dataHandle(inputEl, binding, options)
     }
     EVENTS.forEach(event => {
-      input.addEventListener(event, input.keyupHandle, true)
+      inputEl.addEventListener(event, inputEl.keyupHandle, true)
     })
   },
   unbind (el) {
-    const input = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
-    if (!input) {
+    const inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
+    if (!inputEl) {
       throw new Error({ message: '该指令只能在input元素或者其父元素使用' })
       return // eslint-disable-line
     }
     EVENTS.forEach(event => {
-      input.removeEventListener(event, input.keyupHandle, true)
+      inputEl.removeEventListener(event, inputEl.keyupHandle, true)
     })
-    delete input.keyupHandle
+    delete inputEl.keyupHandle
   }
 }

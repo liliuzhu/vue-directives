@@ -13,5 +13,6 @@ export {
   integer
 }
 export default {
-  install
+  install,
+  integer
 }
