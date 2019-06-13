@@ -10,7 +10,7 @@ var env = config.build.env
 
 var webpackConfig = merge(baseWebpackConfig, {
   entry: {
-    "vueImagesLoaded": './src/imagesLoadedDirective.js'
+    "vue-directives": './src/index.js'
   },
   module: {
     loaders: utils.styleLoaders({ sourceMap: config.build.productionSourceMap, extract: true })
@@ -18,8 +18,8 @@ var webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
     path: config.build.assetsRoot,
-    filename: 'vueimagesloaded.js',
-    library: 'VueImagesLoaded',
+    filename: 'vue-directives.js',
+    library: 'vue-directives',
     libraryTarget: "umd"
   },
   externals: {
@@ -28,12 +28,6 @@ var webpackConfig = merge(baseWebpackConfig, {
       commonjs2: 'vue',
       commonjs: 'vue',
       amd: 'vue'
-    },
-    "imagesLoaded": {
-      root: 'imagesLoaded',
-      commonjs2: 'imagesLoaded',
-      commonjs: 'imagesLoaded',
-      amd: 'imagesLoaded'
     }
   },
   vue: {
