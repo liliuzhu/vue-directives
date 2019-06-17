@@ -46,7 +46,7 @@ export default {
       min: -Infinity, // 最小值
       coverEvents: ['blur'], // 覆盖时机   ['blur', 'input']
       warningEvents: ['blur'], // 提示时机  ['blur', 'input']
-      tipFun: null, // 溢出触发提示fn
+      tipFun: null // 溢出触发提示fn
     }
     const options = {...{}, ...defaultOptions, ...(binding.modifiers || {}), ...(binding.value || {})}
     console.log(options)

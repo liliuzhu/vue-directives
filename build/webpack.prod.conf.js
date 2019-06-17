@@ -12,7 +12,7 @@ const env = require('../config/prod.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
   entry: {
-    "vue-directives": './src/directives/index.js'
+    "vueDirectives": './src/directives/index.js'
   },
   module: {
     rules: utils.styleLoaders({
@@ -25,7 +25,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   output: {
     path: config.build.assetsRoot,
     filename: 'vue-directives.js',
-    library: 'vue-directives',
+    library: 'VueDirectives',
     libraryTarget: "umd"
   },
   externals: {
