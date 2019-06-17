@@ -5,22 +5,20 @@
 </template>
 
 <script>
-import {integer} from '../../src/directives'
+  import {integer} from './directives'
 
-export default {
-  directives: {
-    integer
-  },
-  name: 'hello',
-  data () {
-    return {
-      integer: '1'
-    }
-  },
-  methods:{
-
+  export default {
+    directives: {
+      integer
+    },
+    name: 'hello',
+    data() {
+      return {
+        integer: '1'
+      }
+    },
+    methods: {}
   }
-}
 </script>
 <style>
 

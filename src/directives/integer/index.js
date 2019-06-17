@@ -36,7 +36,7 @@ const EVENTS = ['input', 'blur']
 export default {
   name: 'integer',
   // 指令的定义
-  bind (el, binding, vnode) { // eslint-disable-line
+  bind(el, binding, vnode) { // eslint-disable-line
     const defaultOptions = {
       reqired: false, // 是否必填
       cover: false, // 超出范围是否覆盖
@@ -48,11 +48,11 @@ export default {
       warningEvents: ['blur'], // 提示时机  ['blur', 'input']
       tipFun: null, // 溢出触发提示fn
     }
-    const options = { ...{}, ...defaultOptions, ...(binding.modifiers || {}), ...(binding.value || {}) }
+    const options = {...{}, ...defaultOptions, ...(binding.modifiers || {}), ...(binding.value || {})}
     console.log(options)
     const inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
     if (!inputEl) {
-      throw new Error({ message: '该指令只能在input元素或者其父元素使用' })
+      throw new Error({message: '该指令只能在input元素或者其父元素使用'})
       return // eslint-disable-line
     }
     inputEl.keyupHandle = event => { // eslint-disable-line
@@ -63,10 +63,10 @@ export default {
       inputEl.addEventListener(event, inputEl.keyupHandle, false)
     })
   },
-  unbind (el) {
+  unbind(el) {
     const inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
     if (!inputEl) {
-      throw new Error({ message: '该指令只能在input元素或者其父元素使用' })
+      throw new Error({message: '该指令只能在input元素或者其父元素使用'})
       return // eslint-disable-line
     }
     EVENTS.forEach(event => {
