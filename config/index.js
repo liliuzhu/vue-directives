@@ -3,9 +3,8 @@ var path = require('path')
 
 module.exports = {
   build: {
-    env: require('./prod.env'),
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: '/',
+    assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
@@ -18,7 +17,6 @@ module.exports = {
     bundleAnalyzerReport: process.env.npm_config_report
   },
   dev: {
-    env: require('./dev.env'),
     // Various Dev Server settings
     host: '0.0.0.0', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
@@ -27,6 +25,9 @@ module.exports = {
     proxyTable: {},
     autoOpenBrowser: false,
     errorOverlay: true,
+    notifyOnErrors: true,
+    poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
+
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
     // (https://github.com/webpack/css-loader#sourcemaps)

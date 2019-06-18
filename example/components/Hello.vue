@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import {integer} from '../../src/directives'
+import {integer} from '@/directives'
 
 export default {
   directives: {

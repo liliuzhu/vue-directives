@@ -14,20 +14,13 @@ const webpackConfig = merge(baseWebpackConfig, {
   entry: {
     "vueDirectives": './src/directives/index.js'
   },
-  module: {
-    rules: utils.styleLoaders({
-      sourceMap: config.build.productionSourceMap,
-      extract: true,
-      usePostCSS: true
-    })
-  },
-  devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
     path: config.build.assetsRoot,
     filename: 'vue-directives.js',
     library: 'VueDirectives',
     libraryTarget: "umd"
   },
+  devtool: config.build.productionSourceMap ? config.build.devtool : false,
   externals: {
     "vue": {
       root: 'Vue',

@@ -10,9 +10,6 @@ const install = Vue => {
 }
 
 export {
-  integer
-}
-export default {
   install,
   integer
 }

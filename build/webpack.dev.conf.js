@@ -17,6 +17,11 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   entry: {
     app: './example/main.js'
   },
+  output: {
+    path: config.build.assetsRoot,
+    filename: '[name].js',
+    publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath
+  },
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
   },
@@ -57,7 +62,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: './example/index.html',
+      filename: 'index.html',
       template: './example/index.html',
       inject: true
     }),
