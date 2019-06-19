@@ -18,7 +18,7 @@
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "build": "node build/build.js",
     "analyz": "npm run build --report",
-    "publish": "npm publish"
+    "publish": "sh publish.sh"
   },
   "dependencies": {
     "vue": "^2.5.2"
