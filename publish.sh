@@ -19,6 +19,6 @@ then
 
   # publish
   git push
-  git tag -a v$VERSION
+  git tag -a v$VERSION -m "v$VERSION"
   npm publish
 fi
