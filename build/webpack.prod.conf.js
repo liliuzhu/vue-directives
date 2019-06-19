@@ -1,22 +1,22 @@
 'use strict'
-const path = require('path')
-const utils = require('./utils')
 const webpack = require('webpack')
 const config = require('../config')
 const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const packageJSON = require('../package.json')
 
 const env = require('../config/prod.env')
 
 
 const webpackConfig = merge(baseWebpackConfig, {
   entry: {
-    "vueDirectives": './src/directives/index.js'
+    "vue-directives.min": './src/directives/index.js',
+    "vue-directives": './src/directives/index.js'
   },
   output: {
     path: config.build.assetsRoot,
-    filename: 'vue-directives.js',
+    filename: '[name].js',
     library: 'VueDirectives',
     libraryTarget: "umd"
   },
@@ -35,8 +35,24 @@ const webpackConfig = merge(baseWebpackConfig, {
       'process.env': env
     }),
     new UglifyJsPlugin({
+      test: /\.min.js$/i,
+      extractComments: {
+        condition:  'some',
+        filename(file) {
+          return `${file}.LICENSE`;
+        },
+        banner() {
+          const banner =
+            ' \n' +
+            ' * vue-directives.js v' + packageJSON.version + '\n' +
+            ' * (c) ' + new Date().getFullYear() + ' ' + packageJSON.author + '\n' +
+            ' * Released under the MIT License.\n'
+          return banner;
+        }
+      },
       uglifyOptions: {
         compress: {
+          ecma: 5,
           warnings: false,
           drop_debugger: true,
           drop_console: true
