@@ -1,5 +1,5 @@
 {
-  "name": "vue-directives",
+  "name": "@forvue/vue-directives",
   "version": "0.0.1",
   "description": "Vue.js 2.0 directives",
   "main": "dist/vue-directives.min.js",
