@@ -11,15 +11,11 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
     newValue = options.reqired ? options.reqireValue : ''
   } else {
     const reg = /^[^\d-]|(?!^)[^\d]/g
-    // if (options.min >= 0) {
-    //   reg = /[^\d]/g
-    // }
     newValue = inputValue.replace(reg, '')
   }
   newValue = newValue && Number(newValue)
-  console.log(newValue)
-  newValue !== '' && options.warningEvents.includes(event.type) && (newValue > options.max || newValue < options.min) && options.tipFun && options.tipFun()
-  if (newValue !== '' && options.cover && options.coverEvents.includes(event.type)) {
+  newValue !== '' && options.warningEvents.indexOf(event.type) > -1 && (newValue > options.max || newValue < options.min) && options.tipFun && options.tipFun()
+  if (newValue !== '' && options.cover && options.coverEvents.indexOf(event.type) > -1) {
     newValue = (Number.isFinite(options.max) && newValue > options.max) ? options.max : (Number.isFinite(options.min) && newValue < options.min) ? options.min : newValue
   }
   const maxFigures = !Number.isFinite(options.maxFigures) ? undefined : newValue < 0 ? options.maxFigures + 1 : options.maxFigures
