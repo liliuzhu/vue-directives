@@ -2,6 +2,8 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+// import Directives from '*/dist/vue-directives.min'
+// Vue.use(Directives)
 
 /* eslint-disable no-new */
 new Vue({

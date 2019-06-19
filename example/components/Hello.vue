@@ -6,6 +6,7 @@
 
 <script>
 import {integer} from '@/directives'
+// import {integer} from '*/dist/vue-directives.min'
 
 export default {
   directives: {
