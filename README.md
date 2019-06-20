@@ -22,7 +22,7 @@ Vue module for directives in your applications. Some of goals of this project wo
 * [___Requirements___](#requirements)
 * [___Installation___](#installation)
 * [___Usage___](#usage)
-  * [___directives Options___](#directives Options)
+  * [___DirectivesOptions___](#DirectivesOptions)
 * [___Authors && Contributors___](#authors-&&-Contributors)
 * [___License___](#license)
 
@@ -137,7 +137,7 @@ template:
 
 ```
 
-## directives Options
+## DirectivesOptions
 ### v-integer.reqired.cover="{}"
 |key|description|default|options|mode|
 |:---|---|---|---|---|
