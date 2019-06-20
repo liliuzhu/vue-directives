@@ -316,7 +316,7 @@ var EVENTS = ['input', 'blur'];
     console.log(options);
     var inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0];
     if (!inputEl) {
-      throw new Error({ message: '该指令只能在input元素或者其父元素使用' });
+      throw new Error('该指令只能在input元素或者其父元素使用');
       return;
     }
     inputEl.keyupHandle = function (event) {
@@ -329,7 +329,7 @@ var EVENTS = ['input', 'blur'];
   unbind: function unbind(el) {
     var inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0];
     if (!inputEl) {
-      throw new Error({ message: '该指令只能在input元素或者其父元素使用' });
+      throw new Error('该指令只能在input元素或者其父元素使用');
       return;
     }
     EVENTS.forEach(function (event) {
