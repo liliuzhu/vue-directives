@@ -48,7 +48,7 @@ export default {
     console.log(options)
     const inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
     if (!inputEl) {
-      throw new Error({message: '该指令只能在input元素或者其父元素使用'})
+      throw new Error('该指令只能在input元素或者其父元素使用')
       return // eslint-disable-line
     }
     inputEl.keyupHandle = event => { // eslint-disable-line
@@ -62,7 +62,7 @@ export default {
   unbind(el) {
     const inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
     if (!inputEl) {
-      throw new Error({message: '该指令只能在input元素或者其父元素使用'})
+      throw new Error('该指令只能在input元素或者其父元素使用')
       return // eslint-disable-line
     }
     EVENTS.forEach(event => {
