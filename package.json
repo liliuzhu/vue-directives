@@ -1,6 +1,6 @@
 {
   "name": "@forvue/vue-directives",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Vue.js 2.0 directives",
   "main": "dist/vue-directives.min.js",
   "files": [
