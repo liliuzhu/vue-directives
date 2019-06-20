@@ -51,7 +51,7 @@ $ yuarn add @forvue/vue-directives
 
 ## CDN
 
-CDN: [https://unpkg.com/@forvue/vue-directives@0.0.2/dist/vue-directives.min.js](https://unpkg.com/@forvue/vue-directives@0.0.2/dist/vue-directives.min.js)
+CDN: [https://unpkg.com/@forvue/vue-directives](https://unpkg.com/@forvue/vue-directives)
 
 # Usage
 ### Global Registration
@@ -102,7 +102,7 @@ template:
 <head>
     <meta charset="UTF-8">
     <script src="https://unpkg.com/vue@2.6.10/dist/vue.min.js"></script>
-    <script src="https://unpkg.com/@forvue/vue-directives@0.0.2/dist/vue-directives.min.js"></script>
+    <script src="https://unpkg.com/@forvue/vue-directives"></script>
     <title>VueDirectives</title>
 </head>
 <body>
