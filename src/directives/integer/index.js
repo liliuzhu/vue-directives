@@ -13,16 +13,18 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
     const reg = /^[^\d-]|(?!^)[^\d]/g
     newValue = inputValue.replace(reg, '')
   }
-  newValue = newValue && Number(newValue)
-  if ((Number.MAX_SAFE_INTEGER && newValue > Number.MAX_SAFE_INTEGER) || (Number.MIN_SAFE_INTEGER && newValue < Number.MIN_SAFE_INTEGER)) {
-    console.warn(`提示：输入值超过±${Number.MAX_SAFE_INTEGER}，无法精确表示这个值`)
+
+  if ((Number.isFinite(options.max) || Number.isFinite(options.min)) && newValue) {
+    newValue = Number(newValue)
+    if ((Number.MAX_SAFE_INTEGER && newValue > Number.MAX_SAFE_INTEGER) || (Number.MIN_SAFE_INTEGER && newValue < Number.MIN_SAFE_INTEGER)) {
+      console.warn(`提示：输入值超过±${Number.MAX_SAFE_INTEGER}，无法精确表示这个值`)
+    }
+    options.warningEvents.indexOf(event.type) > -1 && (newValue > options.max || newValue < options.min) && options.tipFun && options.tipFun()
+    if (options.cover && options.coverEvents.indexOf(event.type) > -1) {
+      newValue = (Number.isFinite(options.max) && newValue > options.max) ? options.max : (Number.isFinite(options.min) && newValue < options.min) ? options.min : newValue
+    }
   }
-  newValue !== '' && options.warningEvents.indexOf(event.type) > -1 && (newValue > options.max || newValue < options.min) && options.tipFun && options.tipFun()
-  if (newValue !== '' && options.cover && options.coverEvents.indexOf(event.type) > -1) {
-    newValue = (Number.isFinite(options.max) && newValue > options.max) ? options.max : (Number.isFinite(options.min) && newValue < options.min) ? options.min : newValue
-  }
-  const maxFigures = !Number.isFinite(options.maxFigures) ? undefined : newValue < 0 ? options.maxFigures + 1 : options.maxFigures
-  newValue = newValue.toString().slice(0, maxFigures)
+
   timer = setTimeout(() => {
     inputEl.value = newValue
     trigger(inputEl, 'input')
@@ -41,7 +43,6 @@ export default {
       cover: false, // 超出范围是否覆盖
       reqireValue: '0', // 为空时的必填值
       max: Infinity, // 最大值
-      maxFigures: Infinity, // 最大位数
       min: -Infinity, // 最小值
       coverEvents: ['blur'], // 覆盖时机   ['blur', 'input']
       warningEvents: ['blur'], // 提示时机  ['blur', 'input']
