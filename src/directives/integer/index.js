@@ -14,6 +14,9 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
     newValue = inputValue.replace(reg, '')
   }
   newValue = newValue && Number(newValue)
+  if ((Number.MAX_SAFE_INTEGER && newValue > Number.MAX_SAFE_INTEGER) || (Number.MIN_SAFE_INTEGER && newValue < Number.MIN_SAFE_INTEGER)) {
+    console.warn(`提示：输入值超过±${Number.MAX_SAFE_INTEGER}，无法精确表示这个值`)
+  }
   newValue !== '' && options.warningEvents.indexOf(event.type) > -1 && (newValue > options.max || newValue < options.min) && options.tipFun && options.tipFun()
   if (newValue !== '' && options.cover && options.coverEvents.indexOf(event.type) > -1) {
     newValue = (Number.isFinite(options.max) && newValue > options.max) ? options.max : (Number.isFinite(options.min) && newValue < options.min) ? options.min : newValue
