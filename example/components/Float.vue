@@ -1,21 +1,22 @@
 <template>
-  <div class="hello">
-    <input type="text" v-integer v-model="integer">
+  <div class="float">
+    浮点数：
+    <input type="text" v-float v-model="float">
   </div>
 </template>
 
 <script>
-import {integer} from '@/directives'
+import {float} from '@/directives'
 // import {integer} from '*/dist/vue-directives.min'
 
 export default {
   directives: {
-    integer
+    float
   },
-  name: 'hello',
+  name: 'float',
   data() {
     return {
-      integer: '1'
+      float: '1.3'
     }
   },
   methods: {}

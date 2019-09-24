@@ -1,13 +1,16 @@
 /* @license
- 需要保留的信息
+ 目前integer和float两个指令存在bug，当输入的数值大于Number.MAX_SAFE_INTEGER会造成经度丢失的问题
  */
 import integer from './integer'
+import float from './float'
 
 const directives = [
-  integer
+  integer,
+  float
 ]
 const install = Vue => {
   if (install.installed) return
+  install.installed = true
   directives.forEach(directive => {
     Vue.directive(directive.name, directive)
   })
@@ -15,7 +18,8 @@ const install = Vue => {
 
 export {
   install,
-  integer
+  integer,
+  float
 }
 export default {
   install

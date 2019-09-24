@@ -1,17 +1,19 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <hello></hello>
+    <integer/>
+    <float/>
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello'
+import Integer from './components/Integer'
+import Float from './components/Float'
 
 export default {
   name: 'app',
   components: {
-    Hello
+    Integer, Float
   }
 }
 </script>
