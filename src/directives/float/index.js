@@ -3,6 +3,27 @@ const trigger = (el, type) => {
   e.initEvent(type, true, true)
   el.dispatchEvent(e)
 }
+const addZero = (number = 0) => { // 添加0
+  let num = Number.parseInt(number)
+  if (num <= 0) return ''
+  let arr = []
+  while (num--) {
+    arr.push('0')
+  }
+  return arr.join('')
+}
+const handleFixed = (value = '', toFixed = 0) => { // 去除多余小数, value 要处理的数， num 需要保留的小数位
+  const string = `${value}`
+  if (!string || toFixed < 0) return string
+  const tempArray = string.split('.')
+  tempArray[1] = tempArray[1] || ''
+  if (tempArray[1].length < toFixed) {
+    tempArray[1] += addZero(toFixed - tempArray[1].length)
+  } else if (tempArray[1].length > toFixed) {
+    tempArray[1] = tempArray[1].slice(0, toFixed)
+  }
+  return tempArray.join('.')
+}
 let timer = null
 const dataHandle = (event, inputEl, binding, vnode, options) => {
   const inputValue = inputEl.value
@@ -10,24 +31,29 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
   if (inputValue.length === 0) {
     newValue = options.reqired ? options.reqireValue : ''
   } else {
-    const reg = /^[^\d-]|(?!^)[^\d]/g
-    newValue = inputValue.replace(reg, '')
+    const reg = /^[^\d-]|(?!^)[^\d.]/g // 不符合整数的字符
+    const reg2 = /^[0]+/g // 全为0时
+    const reg3 = /[.]+/g // 多个相连的.
+    newValue = inputValue.replace(reg, '').replace(reg3, '.').replace(reg2, '') || '0'
+    const tempArray = newValue.split('.')
+    newValue = tempArray.slice(0, 2).join('.') + tempArray.slice(2).join('')
   }
-  if (Number.isFinite(options.max) || Number.isFinite(options.min)) {
+  if ((Number.isFinite(options.max) || Number.isFinite(options.min)) && newValue) {
     newValue = newValue && Number(newValue)
     if ((Number.MAX_SAFE_INTEGER && newValue > Number.MAX_SAFE_INTEGER) || (Number.MIN_SAFE_INTEGER && newValue < Number.MIN_SAFE_INTEGER)) {
       console.warn(`提示：输入值超过±${Number.MAX_SAFE_INTEGER}，无法精确表示这个值`)
     }
-    newValue !== '' && options.warningEvents.indexOf(event.type) > -1 && (newValue > options.max || newValue < options.min) && options.tipFun && options.tipFun()
-    if (newValue !== '' && options.cover && options.coverEvents.indexOf(event.type) > -1) {
+    options.warningEvents.indexOf(event.type) > -1 && (newValue > options.max || newValue < options.min) && options.tipFun && options.tipFun()
+    if (options.cover && options.coverEvents.indexOf(event.type) > -1) {
       newValue = (Number.isFinite(options.max) && newValue > options.max) ? options.max : (Number.isFinite(options.min) && newValue < options.min) ? options.min : newValue
     }
   }
-  const maxFigures = !Number.isFinite(options.maxFigures) ? undefined : newValue < 0 ? options.maxFigures + 1 : options.maxFigures
-  newValue = newValue.toString().slice(0, maxFigures)
+  if (options.toFixedEvents.indexOf(event.type) > -1) {
+    newValue = handleFixed(newValue, options.toFixed)
+  }
   timer = setTimeout(() => {
     console.log(newValue)
-    inputEl.value = newValue
+    inputEl.value = `${newValue}`
     trigger(inputEl, 'input')
     clearTimeout(timer)
     timer = null
@@ -44,18 +70,17 @@ export default {
       cover: false, // 超出范围是否覆盖
       reqireValue: '0', // 为空时的必填值
       max: Infinity, // 最大值
-      maxFigures: Infinity, // 最大位数
+      // maxFigures: Infinity, // 最大位数
+      toFixed: -1, // 小数位数,为负数时不限
       min: -Infinity, // 最小值
       coverEvents: ['blur'], // 覆盖时机   ['blur', 'input']
       warningEvents: ['blur'], // 提示时机  ['blur', 'input']
+      toFixedEvents: ['blur'], // 计算小数位的时机  ['blur']
       tipFun: null // 溢出触发提示fn
     }
     const options = {...{}, ...defaultOptions, ...(binding.modifiers || {}), ...(binding.value || {})}
     console.log(options)
     const inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
-    // if (process.env.NODE_ENV !== 'production') {
-    //
-    // }
     if (!inputEl) {
       throw new Error('该指令只能在input元素或者其父元素使用')
       return // eslint-disable-line

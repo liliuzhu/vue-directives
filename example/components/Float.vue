@@ -1,7 +1,7 @@
 <template>
   <div class="float">
     浮点数：
-    <input type="text" v-float v-model="float">
+    <input type="text" v-float="{toFixed: 3}" v-model="float">
   </div>
 </template>
 
