@@ -10,8 +10,9 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
   if (inputValue.length === 0) {
     newValue = options.reqired ? options.reqireValue : ''
   } else {
-    const reg = /^[^\d-]|(?!^)[^\d]/g
-    newValue = inputValue.replace(reg, '')
+    const reg = /^[^\d-]|(?!^)[^\d]/g // 不符合整数的字符
+    const reg2 = /^[0]+/g // 全为0时
+    newValue = inputValue.replace(reg, '').replace(reg2, '') || '0'
   }
 
   if ((Number.isFinite(options.max) || Number.isFinite(options.min)) && newValue) {
@@ -26,7 +27,7 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
   }
 
   timer = setTimeout(() => {
-    inputEl.value = newValue
+    inputEl.value = `${newValue}`
     trigger(inputEl, 'input')
     clearTimeout(timer)
     timer = null
