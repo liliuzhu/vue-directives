@@ -32,9 +32,9 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
     newValue = options.reqired ? options.reqireValue : ''
   } else {
     const reg = /^[^\d-]|(?!^)[^\d.]/g // 不符合整数的字符
-    const reg2 = /^[0]+/g // 全为0时
-    const reg3 = /[.]+/g // 多个相连的.
-    newValue = inputValue.replace(reg, '').replace(reg3, '.').replace(reg2, '') || '0'
+    const reg2 = /^([-]?)([0]+)([\d]+[.]?[\d]?)/g // 开头有0时
+    const reg3 = /[.]{2,}/g // 多个相连的.
+    newValue = inputValue.replace(reg, '').replace(reg3, '.').replace(reg2, '$1$3') || '0'
     const tempArray = newValue.split('.')
     newValue = tempArray.slice(0, 2).join('.') + tempArray.slice(2).join('')
   }
