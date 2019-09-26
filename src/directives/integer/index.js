@@ -11,8 +11,8 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
     newValue = options.reqired ? options.reqireValue : ''
   } else {
     const reg = /^[^\d-]|(?!^)[^\d]/g // 不符合整数的字符
-    const reg2 = /^[0]+/g // 全为0时
-    newValue = inputValue.replace(reg, '').replace(reg2, '') || '0'
+    const reg2 = /^([-]?)[0]+/g // 开头有0时
+    newValue = inputValue.replace(reg, '').replace(reg2, '$1') || '0'
   }
 
   if ((Number.isFinite(options.max) || Number.isFinite(options.min)) && newValue) {
