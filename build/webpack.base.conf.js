@@ -12,7 +12,7 @@ const createLintingRule = () => ({
   test: /\.(js|vue)$/,
   loader: 'eslint-loader',
   enforce: 'pre',
-  include: [resolve('src'), resolve('example')],
+  include: [resolve('src'), resolve('example'), resolve('test')],
   options: {
     formatter: require('eslint-friendly-formatter'),
     emitWarning: !config.dev.showEslintErrorsInOverlay
@@ -41,7 +41,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('example'), resolve('node_modules/webpack-dev-server/client')]
+        include: [resolve('src'), resolve('example'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

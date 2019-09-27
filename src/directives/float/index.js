@@ -1,8 +1,5 @@
-const trigger = (el, type) => {
-  const e = document.createEvent('HTMLEvents')
-  e.initEvent(type, true, true)
-  el.dispatchEvent(e)
-}
+import {triggerEvent} from '@/utils'
+
 const addZero = (number = 0) => { // 添加0
   let num = Number.parseInt(number)
   if (num <= 0) return ''
@@ -24,8 +21,9 @@ const handleFixed = (value = '', toFixed = 0) => { // 去除多余小数, value 
   }
   return tempArray.join('.')
 }
-let timer = null
+
 const dataHandle = (event, inputEl, binding, vnode, options) => {
+  let timer = null
   const inputValue = inputEl.value
   let newValue = null
   if (inputValue.length === 0) {
@@ -51,10 +49,12 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
   if (options.toFixedEvents.indexOf(event.type) > -1) {
     newValue = handleFixed(newValue, options.toFixed)
   }
+  newValue = `${newValue}`
+  if (inputValue === newValue) return
   timer = setTimeout(() => {
     console.log(newValue)
-    inputEl.value = `${newValue}`
-    trigger(inputEl, 'input')
+    inputEl.value = newValue
+    triggerEvent(inputEl, 'input')
     clearTimeout(timer)
     timer = null
   }, 0)
@@ -87,7 +87,7 @@ export default {
     }
     inputEl.keyupHandle = event => { // eslint-disable-line
       // event.isTrusted 事件是否可信，通过createEvent，initEvent的事件不可信
-      event.isTrusted && dataHandle(event, inputEl, binding, vnode, options)
+      dataHandle(event, inputEl, binding, vnode, options)
     }
     EVENTS.forEach(event => {
       inputEl.addEventListener(event, inputEl.keyupHandle, false)

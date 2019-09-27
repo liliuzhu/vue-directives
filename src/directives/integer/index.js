@@ -1,10 +1,7 @@
-const trigger = (el, type) => {
-  const e = document.createEvent('HTMLEvents')
-  e.initEvent(type, true, true)
-  el.dispatchEvent(e)
-}
-let timer = null
+import {triggerEvent, nextTick} from '@/utils'
+
 const dataHandle = (event, inputEl, binding, vnode, options) => {
+  // let timer = null
   const inputValue = inputEl.value
   let newValue = null
   if (inputValue.length === 0) {
@@ -25,13 +22,13 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
       newValue = (Number.isFinite(options.max) && newValue > options.max) ? options.max : (Number.isFinite(options.min) && newValue < options.min) ? options.min : newValue
     }
   }
-
-  timer = setTimeout(() => {
-    inputEl.value = `${newValue}`
-    trigger(inputEl, 'input')
-    clearTimeout(timer)
-    timer = null
-  }, 0)
+  newValue = `${newValue}`
+  if (inputValue === newValue) return
+  nextTick(() => {
+    console.log(123, newValue)
+    inputEl.value = newValue
+    triggerEvent(inputEl, 'input')
+  })
 }
 const EVENTS = ['input', 'blur']
 
@@ -58,7 +55,7 @@ export default {
     }
     inputEl.keyupHandle = event => { // eslint-disable-line
       // event.isTrusted 事件是否可信，通过createEvent，initEvent的事件不可信
-      event.isTrusted && dataHandle(event, inputEl, binding, vnode, options)
+      dataHandle(event, inputEl, binding, vnode, options)
     }
     EVENTS.forEach(event => {
       inputEl.addEventListener(event, inputEl.keyupHandle, false)
