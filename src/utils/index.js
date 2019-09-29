@@ -1,4 +1,6 @@
-export * from './next-tick'
+export {nextTick} from './next-tick'
+export {microInMacro} from './microAndMacro'
+
 export const triggerEvent = (el, name) => {
   let eventName = ''
   if (/^mouse|click/.test(name)) {

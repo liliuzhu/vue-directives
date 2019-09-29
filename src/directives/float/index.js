@@ -1,4 +1,4 @@
-import {triggerEvent} from '@/utils'
+import {triggerEvent, nextTick} from '@/utils'
 
 const addZero = (number = 0) => { // 添加0
   let num = Number.parseInt(number)
@@ -23,7 +23,6 @@ const handleFixed = (value = '', toFixed = 0) => { // 去除多余小数, value 
 }
 
 const dataHandle = (event, inputEl, binding, vnode, options) => {
-  let timer = null
   const inputValue = inputEl.value
   let newValue = null
   if (inputValue.length === 0) {
@@ -51,13 +50,11 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
   }
   newValue = `${newValue}`
   if (inputValue === newValue) return
-  timer = setTimeout(() => {
-    console.log(newValue)
+
+  nextTick(() => {
     inputEl.value = newValue
     triggerEvent(inputEl, 'input')
-    clearTimeout(timer)
-    timer = null
-  }, 0)
+  })
 }
 const EVENTS = ['input', 'blur']
 
@@ -79,7 +76,6 @@ export default {
       tipFun: null // 溢出触发提示fn
     }
     const options = {...{}, ...defaultOptions, ...(binding.modifiers || {}), ...(binding.value || {})}
-    console.log(options)
     const inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
     if (!inputEl) {
       throw new Error('该指令只能在input元素或者其父元素使用')

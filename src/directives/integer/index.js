@@ -1,7 +1,6 @@
 import {triggerEvent, nextTick} from '@/utils'
 
 const dataHandle = (event, inputEl, binding, vnode, options) => {
-  // let timer = null
   const inputValue = inputEl.value
   let newValue = null
   if (inputValue.length === 0) {
@@ -24,8 +23,8 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
   }
   newValue = `${newValue}`
   if (inputValue === newValue) return
+
   nextTick(() => {
-    console.log(123, newValue)
     inputEl.value = newValue
     triggerEvent(inputEl, 'input')
   })
@@ -47,7 +46,6 @@ export default {
       tipFun: null // 溢出触发提示fn
     }
     const options = {...{}, ...defaultOptions, ...(binding.modifiers || {}), ...(binding.value || {})}
-    console.log(options)
     const inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
     if (!inputEl) {
       throw new Error('该指令只能在input元素或者其父元素使用')
