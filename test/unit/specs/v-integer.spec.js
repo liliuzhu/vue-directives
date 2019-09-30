@@ -13,11 +13,10 @@ describe('指令 v-integer', () => {
       template: '<input v-integer="intProp" v-model="test"/>'
     }).$mount()
     triggerEvent(vm.$el, 'blur')
-    setTimeout(() => {
-      console.log()
+    microInMacro().then(() => {
       expect(vm.$el.value).to.equal(vm.test).to.equal('12345')
       done()
-    }, 0)
+    })
   })
 
   it('输入下动态取整', (done) => {
@@ -38,6 +37,43 @@ describe('指令 v-integer', () => {
       return microInMacro()
     }).then(() => {
       expect(vm.$el.value).to.equal(vm.test).to.not.equal('123456r')
+      vm.$el.value += '.'
+      triggerEvent(vm.$el, 'input')
+      return microInMacro()
+    }).then(() => {
+      expect(vm.$el.value).to.equal(vm.test).to.equal('123456')
+      done()
+    })
+  })
+
+  it('参数判断-reqired', (done) => {
+    const vm = new Vue({
+      data: {
+        test: '',
+        intProp: {}
+      },
+      directives: {integer},
+      template: '<input v-integer.reqired="intProp" v-model="test"/>'
+    }).$mount()
+    triggerEvent(vm.$el, 'blur')
+    microInMacro().then(() => {
+      expect(vm.$el.value).to.equal(vm.test).to.equal('0')
+      done()
+    })
+  })
+
+  it('参数判断-reqired', (done) => {
+    const vm = new Vue({
+      data: {
+        test: '',
+        intProp: {}
+      },
+      directives: {integer},
+      template: '<input v-integer.reqired="intProp" v-model="test"/>'
+    }).$mount()
+    triggerEvent(vm.$el, 'blur')
+    microInMacro().then(() => {
+      expect(vm.$el.value).to.equal(vm.test).to.not.equal('')
       done()
     })
   })
