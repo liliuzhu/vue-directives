@@ -62,18 +62,35 @@ describe('指令 v-integer', () => {
     })
   })
 
-  it('参数判断-reqired', (done) => {
+  it('参数判断-cover-max-tipFun-min', (done) => {
     const vm = new Vue({
       data: {
         test: '',
-        intProp: {}
+        intProp: {
+          max: 20,
+          min: -20,
+          tipFun: () => {
+            console.log('最大值不能超过±20')
+          }
+        }
       },
       directives: {integer},
-      template: '<input v-integer.reqired="intProp" v-model="test"/>'
+      template: '<input v-integer.cover="intProp" v-model="test"/>'
     }).$mount()
-    triggerEvent(vm.$el, 'blur')
+    vm.$el.value += '6'
+    triggerEvent(vm.$el, 'input')
     microInMacro().then(() => {
-      expect(vm.$el.value).to.equal(vm.test).to.not.equal('')
+      expect(vm.$el.value).to.equal(vm.test).to.equal('6')
+      vm.$el.value += '8R'
+      triggerEvent(vm.$el, 'blur')
+      return microInMacro()
+    }).then(() => {
+      expect(vm.$el.value).to.equal(vm.test).to.equal('20')
+      vm.$el.value = '-38R'
+      triggerEvent(vm.$el, 'blur')
+      return microInMacro()
+    }).then(() => {
+      expect(vm.$el.value).to.equal(vm.test).to.equal('-20')
       done()
     })
   })
