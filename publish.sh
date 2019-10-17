@@ -13,9 +13,10 @@ then
   VERSION=$VERSION npm run build
 
   # publish
-  git add .
-  git commit -m 'releases v$VERSION version'
+  # git add .
+  # git commit -m "releases v$VERSION version"
   git tag -a v$VERSION -m "releases v$VERSION version"
-  git push origin --delete tag "v$VERSION"
+  git push origin "v$VERSION"
+  git tag -d "v$VERSION"
   npm publish --access public
 fi
