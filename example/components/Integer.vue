@@ -1,7 +1,7 @@
 <template>
   <div class="integer">
     整数：
-    <input type="text" v-integer v-model.lazy="integer">
+    <input type="text" v-integer.cover="integerProp" v-model.lazy="integer">
   </div>
 </template>
 
@@ -16,7 +16,11 @@ export default {
   name: 'integer',
   data() {
     return {
-      integer: '1'
+      integer: '1',
+      integerProp: {
+        min: -20,
+        max: 20
+      }
     }
   },
   watch: {
