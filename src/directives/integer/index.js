@@ -12,7 +12,7 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
   }
 
   if ((Number.isFinite(options.max) || Number.isFinite(options.min)) && newValue) {
-    newValue = Number(newValue)
+    newValue = newValue && Number.parseInt(newValue)
     if ((Number.MAX_SAFE_INTEGER && newValue > Number.MAX_SAFE_INTEGER) || (Number.MIN_SAFE_INTEGER && newValue < Number.MIN_SAFE_INTEGER)) {
       console.warn(`提示：输入值超过±${Number.MAX_SAFE_INTEGER}，无法精确表示这个值`)
     }
