@@ -8,7 +8,10 @@
 </head>
 <body>
 <div id="app">
-    <input v-model="number" v-integer type="text">
+    <ul>
+      <li>整数：<input v-model="integer" v-integer.cover="integerProps" type="text"></li>
+      <li>浮点数：<input v-model="float" v-float.cover="floatProps" type="text"></li>
+    </ul>
 </div>
 <script>
     window.onload=function(){
@@ -16,7 +19,17 @@
         let vm=new Vue({
             el:'#app',
             data:{
-                number: 2
+              integer: 2,
+              float: '1.3',
+              integerProps: {
+                min: -20,
+                max: 20
+              },
+              floatProps: {
+                max: 20,
+                min: -20,
+                toFixed: 3
+              }
             },
             mounted() {
 
@@ -25,7 +38,8 @@
 
             },
             directives: {
-                integer: VueDirectives.integer
+                integer: VueDirectives.integer,
+                float: VueDirectives.float
             }
         });
     };
