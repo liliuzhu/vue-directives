@@ -46,29 +46,35 @@ describe('指令 v-float', () => {
     })
   })
 
-  it('参数判断-reqired', (done) => {
+  it('参数判断-reqired-toFixed', (done) => {
     const vm = new Vue({
       data: {
         test: '',
-        intProp: {}
+        intProp: {toFixed: 2}
       },
       directives: {float},
       template: '<input v-float.reqired="intProp" v-model="test"/>'
     }).$mount()
     triggerEvent(vm.$el, 'blur')
     microInMacro().then(() => {
-      expect(vm.$el.value).to.equal(vm.test).to.equal('0')
+      expect(vm.$el.value).to.equal(vm.test).to.equal('0.00')
+      vm.$el.value = '2'
+      triggerEvent(vm.$el, 'blur')
+      return microInMacro()
+    }).then(() => {
+      expect(vm.$el.value).to.equal(vm.test).to.equal('2.00')
       done()
     })
   })
 
-  it('参数判断-cover-max-tipFun-min', (done) => {
+  it('参数判断-cover-max-tipFun-min-toFixed', (done) => {
     const vm = new Vue({
       data: {
         test: '',
         intProp: {
           max: 20,
           min: -20,
+          toFixed: 3,
           tipFun: () => {
             console.log('最大值不能超过±20')
           }
@@ -81,16 +87,21 @@ describe('指令 v-float', () => {
     triggerEvent(vm.$el, 'input')
     microInMacro().then(() => {
       expect(vm.$el.value).to.equal(vm.test).to.equal('6')
-      vm.$el.value += '8R'
+      vm.$el.value += '8.'
+      triggerEvent(vm.$el, 'input')
+      return microInMacro()
+    }).then(() => {
+      expect(vm.$el.value).to.equal(vm.test).to.equal('68.')
+      vm.$el.value += '8'
       triggerEvent(vm.$el, 'blur')
       return microInMacro()
     }).then(() => {
-      expect(vm.$el.value).to.equal(vm.test).to.equal('20')
+      expect(vm.$el.value).to.equal(vm.test).to.equal('20.000')
       vm.$el.value = '-38R'
       triggerEvent(vm.$el, 'blur')
       return microInMacro()
     }).then(() => {
-      expect(vm.$el.value).to.equal(vm.test).to.equal('-20')
+      expect(vm.$el.value).to.equal(vm.test).to.equal('-20.000')
       done()
     })
   })
