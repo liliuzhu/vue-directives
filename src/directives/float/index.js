@@ -9,8 +9,8 @@ const addZero = (number = 0) => { // 添加0
   }
   return arr.join('')
 }
-const handleFixed = (value = '', toFixed = 0) => { // 去除多余小数, value 要处理的数， num 需要保留的小数位
-  const string = `${value}`
+const handleFixed = (string = '', toFixed = 0) => { // 去除多余小数, value 要处理的数， num 需要保留的小数位
+  // const string = `${value}`
   if (!string || toFixed < 0) return string
   const tempArray = string.split('.')
   tempArray[1] = tempArray[1] || ''
@@ -35,8 +35,8 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
     const tempArray = newValue.split('.')
     newValue = tempArray.slice(0, 2).join('.') + tempArray.slice(2).join('')
   }
+
   if ((Number.isFinite(options.max) || Number.isFinite(options.min)) && newValue) {
-    newValue = newValue && Number(newValue)
     if ((Number.MAX_SAFE_INTEGER && newValue > Number.MAX_SAFE_INTEGER) || (Number.MIN_SAFE_INTEGER && newValue < Number.MIN_SAFE_INTEGER)) {
       console.warn(`提示：输入值超过±${Number.MAX_SAFE_INTEGER}，无法精确表示这个值`)
     }
@@ -45,10 +45,10 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
       newValue = (Number.isFinite(options.max) && newValue > options.max) ? options.max : (Number.isFinite(options.min) && newValue < options.min) ? options.min : newValue
     }
   }
+  newValue = `${newValue}`
   if (options.toFixedEvents.indexOf(event.type) > -1) {
     newValue = handleFixed(newValue, options.toFixed)
   }
-  newValue = `${newValue}`
   if (inputValue === newValue) return
 
   nextTick(() => {
