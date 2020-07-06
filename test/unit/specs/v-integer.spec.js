@@ -46,14 +46,14 @@ describe('指令 v-integer', () => {
     })
   })
 
-  it('参数判断-reqired', (done) => {
+  it('参数判断-required', (done) => {
     const vm = new Vue({
       data: {
         test: '',
         intProp: {}
       },
       directives: {integer},
-      template: '<input v-integer.reqired="intProp" v-model="test"/>'
+      template: '<input v-integer.required="intProp" v-model="test"/>'
     }).$mount()
     triggerEvent(vm.$el, 'blur')
     microInMacro().then(() => {
