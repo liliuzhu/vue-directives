@@ -2,6 +2,7 @@
   <div class="integer">
     整数：
     <input type="text" v-integer.cover="integerProp" v-model.lazy="integer">
+    <el-input type="text" v-integer.cover="integerProp" v-model="integer"/>
   </div>
 </template>
 
