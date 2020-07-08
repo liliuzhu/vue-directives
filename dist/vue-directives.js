@@ -936,7 +936,7 @@ var integer_dataHandle = function dataHandle(event, inputEl, binding, vnode, opt
   var inputValue = inputEl.value;
   var newValue = null;
   if (inputValue.length === 0) {
-    newValue = options.reqired ? options.reqireValue : '';
+    newValue = options.required ? options.requireValue : '';
   } else {
     var reg = /^[^\d-]|(?!^)[^\d]/g; // 不符合整数的字符
     var reg2 = /^([-]?)[0]+/g; // 开头有0时
@@ -969,9 +969,9 @@ var EVENTS = ['input', 'blur'];
   bind: function bind(el, binding, vnode) {
     // eslint-disable-line
     var defaultOptions = {
-      reqired: false, // 是否必填
+      required: false, // 是否必填
       cover: false, // 超出范围是否覆盖
-      reqireValue: '0', // 为空时的必填值
+      requireValue: '0', // 为空时的必填值
       max: Infinity, // 最大值
       min: -Infinity, // 最小值
       coverEvents: ['blur'], // 覆盖时机   ['blur', 'input']
@@ -1044,7 +1044,7 @@ var float_dataHandle = function dataHandle(event, inputEl, binding, vnode, optio
   var inputValue = inputEl.value;
   var newValue = null;
   if (inputValue.length === 0) {
-    newValue = options.reqired ? options.reqireValue : '';
+    newValue = options.required ? options.requireValue : '';
   } else {
     var reg = /^[^\d-]|(?!^)[^\d.]/g; // 不符合整数的字符
     var reg2 = /^([-]?)([0]+)([\d]+[.]?[\d]?)/g; // 开头有0时
@@ -1082,9 +1082,9 @@ var float_EVENTS = ['input', 'blur'];
   bind: function bind(el, binding, vnode) {
     // eslint-disable-line
     var defaultOptions = {
-      reqired: false, // 是否必填
+      required: false, // 是否必填
       cover: false, // 超出范围是否覆盖
-      reqireValue: '0', // 为空时的必填值
+      requireValue: '0', // 为空时的必填值
       max: Infinity, // 最大值
       // maxFigures: Infinity, // 最大位数
       toFixed: -1, // 小数位数,为负数时不限
