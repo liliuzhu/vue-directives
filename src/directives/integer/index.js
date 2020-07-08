@@ -4,7 +4,7 @@ const dataHandle = (event, inputEl, binding, vnode, options) => {
   const inputValue = inputEl.value
   let newValue = null
   if (inputValue.length === 0) {
-    newValue = options.reqired ? options.reqireValue : ''
+    newValue = options.required ? options.requireValue : ''
   } else {
     const reg = /^[^\d-]|(?!^)[^\d]/g // 不符合整数的字符
     const reg2 = /^([-]?)[0]+/g // 开头有0时
@@ -36,9 +36,9 @@ export default {
   // 指令的定义
   bind(el, binding, vnode) { // eslint-disable-line
     const defaultOptions = {
-      reqired: false, // 是否必填
+      required: false, // 是否必填
       cover: false, // 超出范围是否覆盖
-      reqireValue: '0', // 为空时的必填值
+      requireValue: '0', // 为空时的必填值
       max: Infinity, // 最大值
       min: -Infinity, // 最小值
       coverEvents: ['blur'], // 覆盖时机   ['blur', 'input']

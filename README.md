@@ -138,12 +138,12 @@ template:
 ```
 
 ## DirectivesOptions
-### v-integer.reqired.cover="{}"
+### v-integer.required.cover="{}"
 |key|description|default|options|mode|
 |:---|---|---|---|---|
-| `reqired`|`Not empty`|`false`|`Boolean`|`modifiers&value`|
+| `required`|`Not empty`|`false`|`Boolean`|`modifiers&value`|
 | `cover`|`Overflow Coverage`|`false`|`Boolean`|`modifiers&value`|
-| `reqireValue`|`Overflow empty`|`0`|`Number`|`value`|
+| `requireValue`|`Overflow empty`|`0`|`Number`|`value`|
 | `max`|`input Maximum value`|`Infinity`|`Number`|`value`|
 | `min`|`input minimum value`|`-Infinity`|`Number`|`value`|
 | `maxFigures`|`max length`|`Infinity`|`Number`|`value`|

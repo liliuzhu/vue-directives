@@ -46,14 +46,14 @@ describe('指令 v-float', () => {
     })
   })
 
-  it('参数判断-reqired-toFixed', (done) => {
+  it('参数判断-required-toFixed', (done) => {
     const vm = new Vue({
       data: {
         test: '',
         intProp: {toFixed: 2}
       },
       directives: {float},
-      template: '<input v-float.reqired="intProp" v-model="test"/>'
+      template: '<input v-float.required="intProp" v-model="test"/>'
     }).$mount()
     triggerEvent(vm.$el, 'blur')
     microInMacro().then(() => {
