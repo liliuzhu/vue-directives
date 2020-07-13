@@ -982,27 +982,39 @@ var EVENTS = ['input', 'blur'];
     var inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0];
     if (!inputEl) {
       throw new Error('该指令只能在input元素或者其父元素使用');
-      return; // eslint-disable-line
     }
-    inputEl.keyupHandle = function (event) {
-      // eslint-disable-line
+    var isComposing = false;
+    inputEl.inputBlurHandle = function (event) {
       // event.isTrusted 事件是否可信，通过createEvent，initEvent的事件不可信
+      if (isComposing) return;
       integer_dataHandle(event, inputEl, binding, vnode, options);
     };
+    inputEl.compositionstartHandle = function (event) {
+      isComposing = true;
+    };
+    inputEl.compositionendHandle = function (event) {
+      isComposing = false;
+    };
     EVENTS.forEach(function (event) {
-      inputEl.addEventListener(event, inputEl.keyupHandle, false);
+      inputEl.addEventListener(event, inputEl.inputBlurHandle, false);
     });
+
+    inputEl.addEventListener('compositionstart', inputEl.compositionstartHandle, false);
+    inputEl.addEventListener('compositionend', inputEl.compositionendHandle, false);
   },
   unbind: function unbind(el) {
     var inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0];
     if (!inputEl) {
       throw new Error('该指令只能在input元素或者其父元素使用');
-      return; // eslint-disable-line
     }
     EVENTS.forEach(function (event) {
-      inputEl.removeEventListener(event, inputEl.keyupHandle, true);
+      inputEl.removeEventListener(event, inputEl.inputBlurHandle, true);
     });
-    delete inputEl.keyupHandle;
+    inputEl.removeEventListener('compositionstart', inputEl.compositionstartHandle, false);
+    inputEl.removeEventListener('compositionend', inputEl.compositionendHandle, false);
+    delete inputEl.inputBlurHandle;
+    delete inputEl.compositionstartHandle;
+    delete inputEl.compositionendHandle;
   }
 });
 // CONCATENATED MODULE: ./src/directives/float/index.js
@@ -1098,27 +1110,39 @@ var float_EVENTS = ['input', 'blur'];
     var inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0];
     if (!inputEl) {
       throw new Error('该指令只能在input元素或者其父元素使用');
-      return; // eslint-disable-line
     }
-    inputEl.keyupHandle = function (event) {
-      // eslint-disable-line
+    var isComposing = false;
+    inputEl.inputBlurHandle = function (event) {
       // event.isTrusted 事件是否可信，通过createEvent，initEvent的事件不可信
+      if (isComposing) return;
       float_dataHandle(event, inputEl, binding, vnode, options);
     };
+    inputEl.compositionstartHandle = function (event) {
+      isComposing = true;
+    };
+    inputEl.compositionendHandle = function (event) {
+      isComposing = false;
+    };
     float_EVENTS.forEach(function (event) {
-      inputEl.addEventListener(event, inputEl.keyupHandle, false);
+      inputEl.addEventListener(event, inputEl.inputBlurHandle, false);
     });
+
+    inputEl.addEventListener('compositionstart', inputEl.compositionstartHandle, false);
+    inputEl.addEventListener('compositionend', inputEl.compositionendHandle, false);
   },
   unbind: function unbind(el) {
     var inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0];
     if (!inputEl) {
       throw new Error('该指令只能在input元素或者其父元素使用');
-      return; // eslint-disable-line
     }
     float_EVENTS.forEach(function (event) {
-      inputEl.removeEventListener(event, inputEl.keyupHandle, true);
+      inputEl.removeEventListener(event, inputEl.inputBlurHandle, true);
     });
-    delete inputEl.keyupHandle;
+    inputEl.removeEventListener('compositionstart', inputEl.compositionstartHandle, false);
+    inputEl.removeEventListener('compositionend', inputEl.compositionendHandle, false);
+    delete inputEl.inputBlurHandle;
+    delete inputEl.compositionstartHandle;
+    delete inputEl.compositionendHandle;
   }
 });
 // CONCATENATED MODULE: ./src/directives/index.js
