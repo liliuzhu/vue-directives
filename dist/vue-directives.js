@@ -994,6 +994,7 @@ var EVENTS = ['input', 'blur'];
     };
     inputEl.compositionendHandle = function (event) {
       isComposing = false;
+      inputEl.inputBlurHandle(event);
     };
     EVENTS.forEach(function (event) {
       inputEl.addEventListener(event, inputEl.inputBlurHandle, false);
@@ -1122,6 +1123,7 @@ var float_EVENTS = ['input', 'blur'];
     };
     inputEl.compositionendHandle = function (event) {
       isComposing = false;
+      inputEl.inputBlurHandle(event);
     };
     float_EVENTS.forEach(function (event) {
       inputEl.addEventListener(event, inputEl.inputBlurHandle, false);
