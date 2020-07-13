@@ -1,8 +1,8 @@
 <template>
   <div class="integer">
     整数：
-    <input type="text" v-integer.cover="integerProp" v-model.lazy="integer">
-    <el-input type="text" v-integer.cover="integerProp" v-model="integer"/>
+    <input type="text" v-integer.cover="integerProp" v-model="integer" @input="input($event)">
+    <el-input size="mini" type="text" v-integer.cover="integerProp" v-model="integer" clearable/>
   </div>
 </template>
 
@@ -26,12 +26,19 @@ export default {
   },
   watch: {
     integer(n, o) {
-      console.log(n, o)
+      // console.log(n, o)
     }
   },
-  methods: {}
+  methods: {
+    input(event) {
+      // console.log(1, event)
+    }
+  }
 }
 </script>
 <style>
-
+.integer {
+  width: 200px;
+  margin: 0 auto;
+}
 </style>
