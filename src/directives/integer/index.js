@@ -49,7 +49,6 @@ export default {
     const inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
     if (!inputEl) {
       throw new Error('该指令只能在input元素或者其父元素使用')
-      return // eslint-disable-line
     }
     let isComposing = false
     inputEl.inputBlurHandle = event => {
@@ -74,7 +73,6 @@ export default {
     const inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
     if (!inputEl) {
       throw new Error('该指令只能在input元素或者其父元素使用')
-      return // eslint-disable-line
     }
     EVENTS.forEach(event => {
       inputEl.removeEventListener(event, inputEl.inputBlurHandle, true)
