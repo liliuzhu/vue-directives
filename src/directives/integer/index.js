@@ -61,6 +61,7 @@ export default {
     }
     inputEl.compositionendHandle = event => {
       isComposing = false
+      inputEl.inputBlurHandle(event)
     }
     EVENTS.forEach(event => {
       inputEl.addEventListener(event, inputEl.inputBlurHandle, false)
