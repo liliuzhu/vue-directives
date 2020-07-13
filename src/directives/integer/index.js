@@ -51,13 +51,24 @@ export default {
       throw new Error('该指令只能在input元素或者其父元素使用')
       return // eslint-disable-line
     }
-    inputEl.keyupHandle = event => { // eslint-disable-line
+    let isComposing = false
+    inputEl.inputBlurHandle = event => {
       // event.isTrusted 事件是否可信，通过createEvent，initEvent的事件不可信
+      if (isComposing) return
       dataHandle(event, inputEl, binding, vnode, options)
     }
+    inputEl.compositionstartHandle = event => {
+      isComposing = true
+    }
+    inputEl.compositionendHandle = event => {
+      isComposing = false
+    }
     EVENTS.forEach(event => {
-      inputEl.addEventListener(event, inputEl.keyupHandle, false)
+      inputEl.addEventListener(event, inputEl.inputBlurHandle, false)
     })
+
+    inputEl.addEventListener('compositionstart', inputEl.compositionstartHandle, false)
+    inputEl.addEventListener('compositionend', inputEl.compositionendHandle, false)
   },
   unbind(el) {
     const inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
@@ -66,8 +77,12 @@ export default {
       return // eslint-disable-line
     }
     EVENTS.forEach(event => {
-      inputEl.removeEventListener(event, inputEl.keyupHandle, true)
+      inputEl.removeEventListener(event, inputEl.inputBlurHandle, true)
     })
-    delete inputEl.keyupHandle
+    inputEl.removeEventListener('compositionstart', inputEl.compositionstartHandle, false)
+    inputEl.removeEventListener('compositionend', inputEl.compositionendHandle, false)
+    delete inputEl.inputBlurHandle
+    delete inputEl.compositionstartHandle
+    delete inputEl.compositionendHandle
   }
 }
