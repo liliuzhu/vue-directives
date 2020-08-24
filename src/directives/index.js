@@ -1,5 +1,5 @@
 /* @license
- 目前integer和float两个指令存在bug，当输入的数值大于Number.MAX_SAFE_INTEGER会造成经度丢失的问题
+ 目前integer和float两个指令存在bug，当输入的数值大于Number.MAX_SAFE_INTEGER会造成精度丢失的问题
  */
 import integer from './integer'
 import float from './float'

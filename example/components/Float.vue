@@ -1,7 +1,8 @@
 <template>
   <div class="float">
     浮点数：
-    <input type="text" v-float.cover="floatProps" v-model="float">
+    <input type="number" v-float.cover="{min:0, max: parseFloat(float2) || 9999, toFixed:2}" v-model="float">
+    <input type="number" v-float.cover="{min: parseFloat(float), max:9999, toFixed:2}" v-model="float2">
   </div>
 </template>
 
@@ -17,10 +18,11 @@ export default {
   data() {
     return {
       float: '1.3',
+      float2: '1.3',
       floatProps: {
         max: 20,
         min: -20,
-        toFixed: 3
+        toFixed: 2
       }
     }
   },

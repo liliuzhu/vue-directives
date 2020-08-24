@@ -22,7 +22,8 @@ const handleFixed = (string = '', toFixed = 0) => { // 去除多余小数, value
   return tempArray.join('.')
 }
 
-const dataHandle = (event, inputEl, binding, vnode, options) => {
+const dataHandle = (event, inputEl) => {
+  const options = inputEl.customOptions
   const inputValue = inputEl.value
   let newValue = null
   if (inputValue.length === 0) {
@@ -81,10 +82,11 @@ export default {
       throw new Error('该指令只能在input元素或者其父元素使用')
     }
     let isComposing = false
+    inputEl.customOptions = options
     inputEl.inputBlurHandle = event => {
       // event.isTrusted 事件是否可信，通过createEvent，initEvent的事件不可信
       if (isComposing) return
-      dataHandle(event, inputEl, binding, vnode, options)
+      dataHandle(event, inputEl)
     }
     inputEl.compositionstartHandle = event => {
       isComposing = true
@@ -100,6 +102,14 @@ export default {
     inputEl.addEventListener('compositionstart', inputEl.compositionstartHandle, false)
     inputEl.addEventListener('compositionend', inputEl.compositionendHandle, false)
   },
+  componentUpdated (el, binding) {
+    const inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
+    if (!inputEl) {
+      throw new Error('该指令只能在input元素或者其父元素使用')
+    }
+    const options = {...{}, ...(inputEl.customOptions || {}), ...(binding.modifiers || {}), ...(binding.value || {})}
+    inputEl.customOptions = options
+  },
   unbind(el) {
     const inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0]
     if (!inputEl) {
@@ -110,6 +120,7 @@ export default {
     })
     inputEl.removeEventListener('compositionstart', inputEl.compositionstartHandle, false)
     inputEl.removeEventListener('compositionend', inputEl.compositionendHandle, false)
+    delete inputEl.customOptions
     delete inputEl.inputBlurHandle
     delete inputEl.compositionstartHandle
     delete inputEl.compositionendHandle
