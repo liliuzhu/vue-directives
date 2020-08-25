@@ -932,7 +932,8 @@ var triggerEvent = function triggerEvent(el, name) {
 
 
 
-var integer_dataHandle = function dataHandle(event, inputEl, binding, vnode, options) {
+var integer_dataHandle = function dataHandle(event, inputEl) {
+  var options = inputEl.customOptions;
   var inputValue = inputEl.value;
   var newValue = null;
   if (inputValue.length === 0) {
@@ -966,7 +967,7 @@ var EVENTS = ['input', 'blur'];
 /* harmony default export */ var integer = ({
   name: 'integer',
   // 指令的定义
-  bind: function bind(el, binding, vnode) {
+  bind: function bind(el, binding) {
     // eslint-disable-line
     var defaultOptions = {
       required: false, // 是否必填
@@ -984,10 +985,11 @@ var EVENTS = ['input', 'blur'];
       throw new Error('该指令只能在input元素或者其父元素使用');
     }
     var isComposing = false;
+    inputEl.customOptions = options;
     inputEl.inputBlurHandle = function (event) {
       // event.isTrusted 事件是否可信，通过createEvent，initEvent的事件不可信
       if (isComposing) return;
-      integer_dataHandle(event, inputEl, binding, vnode, options);
+      integer_dataHandle(event, inputEl);
     };
     inputEl.compositionstartHandle = function (event) {
       isComposing = true;
@@ -1003,6 +1005,14 @@ var EVENTS = ['input', 'blur'];
     inputEl.addEventListener('compositionstart', inputEl.compositionstartHandle, false);
     inputEl.addEventListener('compositionend', inputEl.compositionendHandle, false);
   },
+  componentUpdated: function componentUpdated(el, binding) {
+    var inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0];
+    if (!inputEl) {
+      throw new Error('该指令只能在input元素或者其父元素使用');
+    }
+    var options = extends_default()({}, inputEl.customOptions || {}, binding.modifiers || {}, binding.value || {});
+    inputEl.customOptions = options;
+  },
   unbind: function unbind(el) {
     var inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0];
     if (!inputEl) {
@@ -1013,6 +1023,7 @@ var EVENTS = ['input', 'blur'];
     });
     inputEl.removeEventListener('compositionstart', inputEl.compositionstartHandle, false);
     inputEl.removeEventListener('compositionend', inputEl.compositionendHandle, false);
+    delete inputEl.customOptions;
     delete inputEl.inputBlurHandle;
     delete inputEl.compositionstartHandle;
     delete inputEl.compositionendHandle;
@@ -1053,7 +1064,8 @@ var handleFixed = function handleFixed() {
   return tempArray.join('.');
 };
 
-var float_dataHandle = function dataHandle(event, inputEl, binding, vnode, options) {
+var float_dataHandle = function dataHandle(event, inputEl) {
+  var options = inputEl.customOptions;
   var inputValue = inputEl.value;
   var newValue = null;
   if (inputValue.length === 0) {
@@ -1113,10 +1125,11 @@ var float_EVENTS = ['input', 'blur'];
       throw new Error('该指令只能在input元素或者其父元素使用');
     }
     var isComposing = false;
+    inputEl.customOptions = options;
     inputEl.inputBlurHandle = function (event) {
       // event.isTrusted 事件是否可信，通过createEvent，initEvent的事件不可信
       if (isComposing) return;
-      float_dataHandle(event, inputEl, binding, vnode, options);
+      float_dataHandle(event, inputEl);
     };
     inputEl.compositionstartHandle = function (event) {
       isComposing = true;
@@ -1132,6 +1145,14 @@ var float_EVENTS = ['input', 'blur'];
     inputEl.addEventListener('compositionstart', inputEl.compositionstartHandle, false);
     inputEl.addEventListener('compositionend', inputEl.compositionendHandle, false);
   },
+  componentUpdated: function componentUpdated(el, binding) {
+    var inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0];
+    if (!inputEl) {
+      throw new Error('该指令只能在input元素或者其父元素使用');
+    }
+    var options = extends_default()({}, inputEl.customOptions || {}, binding.modifiers || {}, binding.value || {});
+    inputEl.customOptions = options;
+  },
   unbind: function unbind(el) {
     var inputEl = el.tagName === 'INPUT' ? el : el.getElementsByTagName('input')[0];
     if (!inputEl) {
@@ -1142,6 +1163,7 @@ var float_EVENTS = ['input', 'blur'];
     });
     inputEl.removeEventListener('compositionstart', inputEl.compositionstartHandle, false);
     inputEl.removeEventListener('compositionend', inputEl.compositionendHandle, false);
+    delete inputEl.customOptions;
     delete inputEl.inputBlurHandle;
     delete inputEl.compositionstartHandle;
     delete inputEl.compositionendHandle;
@@ -1152,7 +1174,7 @@ var float_EVENTS = ['input', 'blur'];
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "integer", function() { return integer; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "float", function() { return directives_float; });
 /* @license
- 目前integer和float两个指令存在bug，当输入的数值大于Number.MAX_SAFE_INTEGER会造成经度丢失的问题
+ 目前integer和float两个指令存在bug，当输入的数值大于Number.MAX_SAFE_INTEGER会造成精度丢失的问题
  */
 
 
