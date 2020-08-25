@@ -105,4 +105,35 @@ describe('指令 v-float', () => {
       done()
     })
   })
+
+  it('动态参数变更', (done) => {
+    const vm = new Vue({
+      data: {
+        minTest: '',
+        maxTest: '',
+        intProp: {toFixed: 2}
+      },
+      directives: {float},
+      template: `<input v-float.cover="{min:0, max: parseFloat(maxTest || 99), toFixed: 2}" v-model="minTest" type="number"/>`
+    }).$mount()
+    vm.$el.value = '100'
+    triggerEvent(vm.$el, 'blur')
+    microInMacro().then(() => {
+      expect(vm.$el.value).to.equal(vm.minTest).to.equal('99.00')
+      vm.maxTest = '9999'
+      return microInMacro()
+    }).then(() => {
+      vm.$el.value = '999999'
+      triggerEvent(vm.$el, 'blur')
+      return microInMacro()
+    }).then(() => {
+      expect(vm.$el.value).to.equal(vm.minTest).to.equal('9999.00')
+      vm.$el.value = '999'
+      triggerEvent(vm.$el, 'blur')
+      return microInMacro()
+    }).then(() => {
+      expect(vm.$el.value).to.equal(vm.minTest).to.equal('999.00')
+      done()
+    })
+  })
 })

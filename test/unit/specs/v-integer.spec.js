@@ -94,4 +94,34 @@ describe('指令 v-integer', () => {
       done()
     })
   })
+
+  it('动态参数变更', (done) => {
+    const vm = new Vue({
+      data: {
+        minTest: '',
+        maxTest: ''
+      },
+      directives: {integer},
+      template: `<input v-integer.cover="{min:0, max: parseFloat(maxTest || 99)}" v-model="minTest" type="number"/>`
+    }).$mount()
+    vm.$el.value = '10000.9'
+    triggerEvent(vm.$el, 'blur')
+    microInMacro().then(() => {
+      expect(vm.$el.value).to.equal(vm.minTest).to.equal('99')
+      vm.maxTest = '9999'
+      return microInMacro()
+    }).then(() => {
+      vm.$el.value = '999999'
+      triggerEvent(vm.$el, 'blur')
+      return microInMacro()
+    }).then(() => {
+      expect(vm.$el.value).to.equal(vm.minTest).to.equal('9999')
+      vm.$el.value = '9.'
+      triggerEvent(vm.$el, 'blur')
+      return microInMacro()
+    }).then(() => {
+      expect(vm.$el.value).to.equal(vm.minTest).to.equal('9')
+      done()
+    })
+  })
 })
