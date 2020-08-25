@@ -35,7 +35,7 @@ const EVENTS = ['input', 'blur']
 export default {
   name: 'integer',
   // 指令的定义
-  bind(el, binding, vnode) { // eslint-disable-line
+  bind(el, binding) { // eslint-disable-line
     const defaultOptions = {
       required: false, // 是否必填
       cover: false, // 超出范围是否覆盖
@@ -90,6 +90,7 @@ export default {
     })
     inputEl.removeEventListener('compositionstart', inputEl.compositionstartHandle, false)
     inputEl.removeEventListener('compositionend', inputEl.compositionendHandle, false)
+    delete inputEl.customOptions
     delete inputEl.inputBlurHandle
     delete inputEl.compositionstartHandle
     delete inputEl.compositionendHandle
