@@ -3,9 +3,9 @@ import {triggerEvent, nextTick} from '@/utils'
 const dataHandle = (event, inputEl) => {
   const options = inputEl.customOptions
   const inputValue = inputEl.value
-  let newValue = null
+  let newValue = ''
   if (inputValue.length === 0) {
-    newValue = options.required ? options.requireValue : ''
+    newValue = (options.required && options.requireEvents.indexOf(event.type) > -1) ? options.requireValue : ''
   } else {
     const reg = /^[^\d-]|(?!^)[^\d]/g // 不符合整数的字符
     const reg2 = /^([-]?)[0]+/g // 开头有0时
@@ -40,6 +40,7 @@ export default {
       required: false, // 是否必填
       cover: false, // 超出范围是否覆盖
       requireValue: '0', // 为空时的必填值
+      requireEvents: ['blur', 'input'], // 为空时的必填值覆盖时机   ['blur', 'input']
       max: Infinity, // 最大值
       min: -Infinity, // 最小值
       coverEvents: ['blur'], // 覆盖时机   ['blur', 'input']

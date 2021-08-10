@@ -25,7 +25,7 @@ const handleFixed = (string = '', toFixed = 0) => { // 去除多余小数, value
 const dataHandle = (event, inputEl) => {
   const options = inputEl.customOptions
   const inputValue = inputEl.value
-  let newValue = null
+  let newValue = ''
   if (inputValue.length === 0) {
     newValue = options.required ? options.requireValue : ''
   } else {
@@ -67,6 +67,7 @@ export default {
       required: false, // 是否必填
       cover: false, // 超出范围是否覆盖
       requireValue: '0', // 为空时的必填值
+      requireEvents: ['blur', 'input'], // 为空时的必填值覆盖时机   ['blur', 'input']
       max: Infinity, // 最大值
       // maxFigures: Infinity, // 最大位数
       toFixed: -1, // 小数位数,为负数时不限
