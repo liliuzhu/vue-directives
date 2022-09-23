@@ -35,6 +35,11 @@ jobs:
 
       # run build!
       - run:
+           name: Gatsby test site
+           command: yarn test
+
+      # run build!
+      - run:
           name: Gatsby build site
           command: yarn build
 
