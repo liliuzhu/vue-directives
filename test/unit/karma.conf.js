@@ -25,8 +25,13 @@ module.exports = function karmaConfig (config) {
     },
     webpack: webpackConfig,
     webpackMiddleware: {
-      noInfo: true
+      noInfo: true,
+      stats: 'errors-only'
     },
+    // Concurrency level
+    // how many browser should be started simultaneous
+    concurrency: Infinity,
+
     coverageReporter: {
       dir: './coverage',
       reporters: [
@@ -36,3 +41,9 @@ module.exports = function karmaConfig (config) {
     }
   })
 }
+// files：将要被测试的文件
+// preprocessors：在引入文件前，需要用什么方式处理，我们看到了，包括webpack、sourcemap、coverage
+// reporters：测试完成后的报告，我们需要mocha的报告和coverage的报告
+// coverageReporter：代码覆盖率生成的报告文件地址和存在形式设置
+// webpack：在这需要引入webpack的配置，我们见到顶部，引入了webpack.test.config.js文件，我们待会儿会介绍里面的配置
+// webpackMiddleware：stats: 'errors-only'我们让webpack的编译过程不显示出来，除非编译报错
