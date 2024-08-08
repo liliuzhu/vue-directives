@@ -15,6 +15,7 @@ orbs:
 
 jobs:
   build:
+    executor: node/default
     docker:
       # specify the version you desire here
       - image: cimg/node:14.21.1
@@ -23,10 +24,9 @@ jobs:
 
     steps:
       - checkout
-
       - node/install:
-        install-yarn: true
-        node-version: '14.21.1'
+          install-yarn: true
+          node-version: '14.21.1'
 
       # Download and cache dependencies
       - restore_cache:
